@@ -1,5 +1,13 @@
 version: "3"
 services:
+  api:
+    build: ./
+    tty: true
+    volumes:
+      - ./:/go/src/work
+    ports:
+      - 3000:3000
+
   db:
     image: mysql:8.0
     volumes:
@@ -14,6 +22,9 @@ services:
       - TZ=${TZ}
     ports:
       - ${DB_PORT}:3306
+
+networks:
+  default:
 
 volumes:
   test-go-ddd:
