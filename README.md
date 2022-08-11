@@ -15,3 +15,15 @@
 ```sh
 % vi .env
 ```
+
+## Build
+
+```sh
+% docker-compose build
+```
+
+### Run
+
+```sh
+% docker-compose up -d
+```
