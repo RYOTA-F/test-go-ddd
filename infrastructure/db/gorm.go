@@ -1,4 +1,4 @@
-package datadase
+package db
 
 import (
 	"fmt"

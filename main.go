@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	gorm "tutorial-go-ddd/infrastructure/database"
+	"tutorial-go-ddd/infrastructure/db"
 )
 
 type Test struct {
@@ -11,7 +11,7 @@ type Test struct {
 }
 
 func main() {
-    db := gorm.NewDB()
+    db := db.NewDB()
 		fmt.Println("DB: 接続", db)
 
 		var tests []Test
