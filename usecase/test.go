@@ -5,7 +5,7 @@ import (
 	"tutorial-go-ddd/domain/repository"
 )
 
-type TestUseCase interface {
+type TestUsecase interface {
 	Search(name string) ([]*model.Test, error)
 }
 
@@ -13,7 +13,7 @@ type testUsecase struct {
 	testRepository repository.TestRepository
 }
 
-func NewTestUseCase(testRepository repository.TestRepository) TestUseCase {
+func NewTestUseCase(testRepository repository.TestRepository) TestUsecase {
 	return &testUsecase{
 		testRepository: testRepository,
 	}
