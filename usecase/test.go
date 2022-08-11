@@ -9,18 +9,18 @@ type TestUseCase interface {
 	Search(name string) ([]*model.Test, error)
 }
 
-type testUseCase struct {
+type testUsecase struct {
 	testRepository repository.TestRepository
 }
 
-func NewTestUseCase(tr repository.TestRepository) TestUseCase {
-	return &testUseCase{
-		testRepository: tr,
+func NewTestUseCase(testRepository repository.TestRepository) TestUseCase {
+	return &testUsecase{
+		testRepository: testRepository,
 	}
 }
 
-func (tu testUseCase) Search(name string) (tests []*model.Test, err error) {
-	tests, err = tu.testRepository.Search(name)
+func (testUsecase testUsecase) Search(name string) (tests []*model.Test, err error) {
+	tests, err = testUsecase.testRepository.Search(name)
 	if err != nil {
 		return nil, err
 	}
