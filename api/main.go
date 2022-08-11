@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+
 	"tutorial-go-ddd/infrastructure/db"
 )
 
