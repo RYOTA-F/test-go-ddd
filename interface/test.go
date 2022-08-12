@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 	"tutorial-go-ddd/usecase"
@@ -20,13 +21,9 @@ func NewTestHandler(testUsecase usecase.TestUsecase) TestHandler {
 	return &testHandler{testUsecase: testUsecase}
 }
 
-type requestTest struct {
-	Name string `json:"name"`
-}
-
 type responseTest struct {
-	Id   int    `json:"id"`
-	Name string `json:"name"`
+	Id   			int    		`json:"id"`
+	Name 			string		`json:"name"`
 }
 
 func (testHandler *testHandler) Get() echo.HandlerFunc {
@@ -38,6 +35,7 @@ func (testHandler *testHandler) Get() echo.HandlerFunc {
 
 		foundTest, err := testHandler.testUsecase.FindByID(id)
 		if err != nil {
+			fmt.Println("エラー")
 			return context.JSON(http.StatusBadRequest, err.Error())
 		}
 

@@ -2,15 +2,14 @@ package main
 
 import (
 	infra "tutorial-go-ddd/infrastructure"
-	database "tutorial-go-ddd/infrastructure/database"
-	"tutorial-go-ddd/interface/handler"
+	handler "tutorial-go-ddd/interface"
 	"tutorial-go-ddd/usecase"
 
 	"github.com/labstack/echo"
 )
 
 func main() {
-	testRepository := infra.NewTestRepotitory(database.NewDB())
+	testRepository := infra.NewTestRepotitory(infra.NewDB())
 	testUsecase := usecase.NewTestUseCase(testRepository)
 	testHandler := handler.NewTestHandler(testUsecase)
 
