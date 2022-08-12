@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 	"tutorial-go-ddd/usecase"
@@ -10,6 +9,7 @@ import (
 )
 
 type TestHandler interface {
+	Index() echo.HandlerFunc
 	Get() echo.HandlerFunc
 }
 
@@ -26,6 +26,26 @@ type responseTest struct {
 	Name 			string		`json:"name"`
 }
 
+func (testHandler *testHandler) Index() echo.HandlerFunc {
+	return func(context echo.Context) error {
+		tests, err := testHandler.testUsecase.FindAll()
+		if err != nil {
+			context.JSON(http.StatusBadRequest, err.Error())
+		}
+
+		var res []responseTest
+		for _, v := range tests {
+			test := responseTest{
+				Id: v.Id,
+				Name: v.Name,
+			}
+			res = append(res, test)
+		}
+
+		return context.JSON(http.StatusOK, res)
+	}
+}
+
 func (testHandler *testHandler) Get() echo.HandlerFunc {
 	return func(context echo.Context) error {
 		id, err := strconv.Atoi((context.Param("id")))
@@ -33,15 +53,14 @@ func (testHandler *testHandler) Get() echo.HandlerFunc {
 			return context.JSON(http.StatusBadRequest, err.Error())
 		}
 
-		foundTest, err := testHandler.testUsecase.FindByID(id)
+		test, err := testHandler.testUsecase.FindByID(id)
 		if err != nil {
-			fmt.Println("エラー")
 			return context.JSON(http.StatusBadRequest, err.Error())
 		}
 
 		res := responseTest{
-			Id: foundTest.Id,
-			Name: foundTest.Name,
+			Id: test.Id,
+			Name: test.Name,
 		}
 
 		return context.JSON(http.StatusOK, res)

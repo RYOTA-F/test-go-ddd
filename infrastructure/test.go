@@ -15,6 +15,16 @@ func NewTestRepotitory(conn *gorm.DB) repository.TestRepository {
 	return &testRepository{Conn: conn}
 }
 
+func (testRepository *testRepository) FindAll() ([]*model.Test, error) {
+	tests := []*model.Test{}
+
+	if err := testRepository.Conn.Find(&tests).Error; err != nil{
+		return nil, err
+	}
+
+	return tests, nil
+}
+
 func (testRepository *testRepository) FindByID(id int) (*model.Test, error) {
 	test := &model.Test{Id: id}
 
