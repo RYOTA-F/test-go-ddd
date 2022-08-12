@@ -1,8 +1,9 @@
-package db
+package infra
 
 import (
 	"fmt"
 	"os"
+	"tutorial-go-ddd/domain/model"
 
 	_ "github.com/go-sql-driver/mysql"
 	gorm "github.com/jinzhu/gorm"
@@ -32,6 +33,8 @@ func NewDB() *gorm.DB {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	db.AutoMigrate(model.Test{})
 
 	return db
 }

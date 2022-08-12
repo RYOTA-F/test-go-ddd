@@ -1,23 +1,20 @@
 package main
 
 import (
-	"fmt"
+	infra "tutorial-go-ddd/infrastructure"
+	database "tutorial-go-ddd/infrastructure/database"
+	"tutorial-go-ddd/interface/handler"
+	"tutorial-go-ddd/usecase"
 
-	"tutorial-go-ddd/infrastructure/db"
+	"github.com/labstack/echo"
 )
 
-type Test struct {
-	Id   int    `gorm:"column:id"`
-	Name string `gorm:"column:name"`
-}
-
 func main() {
-    db := db.NewDB()
-		fmt.Println("DB: 接続", db)
+	testRepository := infra.NewTestRepotitory(database.NewDB())
+	testUsecase := usecase.NewTestUseCase(testRepository)
+	testHandler := handler.NewTestHandler(testUsecase)
 
-		var tests []Test
-		db.Find(&tests)
-		defer db.Close()
-
-		fmt.Println("tests: ", tests)
+	e := echo.New()
+	handler.InitRouting(e, testHandler)
+	e.Logger.Fatal(e.Start(":3000"))
 }

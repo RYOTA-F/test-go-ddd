@@ -6,7 +6,7 @@ import (
 )
 
 type TestUsecase interface {
-	Search(name string) ([]*model.Test, error)
+	FindByID(id int) (*model.Test, error)
 }
 
 type testUsecase struct {
@@ -14,16 +14,14 @@ type testUsecase struct {
 }
 
 func NewTestUseCase(testRepository repository.TestRepository) TestUsecase {
-	return &testUsecase{
-		testRepository: testRepository,
-	}
+	return &testUsecase{testRepository: testRepository}
 }
 
-func (testUsecase testUsecase) Search(name string) (tests []*model.Test, err error) {
-	tests, err = testUsecase.testRepository.Search(name)
+func (testUsecase *testUsecase) FindByID(id int) (*model.Test, error) {
+	foundTest, err := testUsecase.testRepository.FindByID(id)
 	if err != nil {
 		return nil, err
 	}
 
-	return tests, nil
+	return foundTest, nil
 }
