@@ -42,3 +42,11 @@ func (testRepository *testRepository) Create(test *model.Test) (*model.Test, err
 
 	return test, nil
 }
+
+func (testRepository *testRepository) Update(test *model.Test) (*model.Test, error) {
+	if err := testRepository.Connect.Model(&test).Update(&test).Error; err != nil {
+		return nil, err
+	}
+
+	return test, nil
+}

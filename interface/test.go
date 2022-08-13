@@ -12,6 +12,7 @@ type TestHandler interface {
 	Index() echo.HandlerFunc
 	Get() echo.HandlerFunc
 	Post() echo.HandlerFunc
+	Put() echo.HandlerFunc
 }
 
 type testHandler struct {
@@ -91,5 +92,31 @@ func (testHandler *testHandler) Post() echo.HandlerFunc {
 		}
 
 		return context.JSON(http.StatusCreated, res)
+	}
+}
+
+func (testHandler *testHandler) Put() echo.HandlerFunc {
+	return func(context echo.Context) error {
+		id, err := strconv.Atoi(context.Param("id"))
+		if err != nil {
+			return context.JSON(http.StatusBadRequest, err.Error())
+		}
+
+		var req requestTest
+		if err := context.Bind(&req); err != nil {
+			return context.JSON(http.StatusBadRequest, err.Error())
+		}
+
+		updatedTest, err := testHandler.testUsecase.Update(id, req.Name)
+		if err != nil {
+			return context.JSON(http.StatusBadRequest, err.Error())
+		}
+
+		res := responseTest{
+			Id:   updatedTest.Id,
+			Name: updatedTest.Name,
+		}
+
+		return context.JSON(http.StatusOK, res)
 	}
 }
