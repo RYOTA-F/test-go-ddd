@@ -11,6 +11,7 @@ import (
 type TestHandler interface {
 	Index() echo.HandlerFunc
 	Get() echo.HandlerFunc
+	Post() echo.HandlerFunc
 }
 
 type testHandler struct {
@@ -19,6 +20,10 @@ type testHandler struct {
 
 func NewTestHandler(testUsecase usecase.TestUsecase) TestHandler {
 	return &testHandler{testUsecase: testUsecase}
+}
+
+type requestTest struct {
+	Name	string `json:"name"`
 }
 
 type responseTest struct {
@@ -64,5 +69,27 @@ func (testHandler *testHandler) Get() echo.HandlerFunc {
 		}
 
 		return context.JSON(http.StatusOK, res)
+	}
+}
+
+func (testHandler *testHandler) Post() echo.HandlerFunc {
+	return func(context echo.Context) error {
+		var req requestTest
+
+		if err := context.Bind(&req); err != nil {
+			return context.JSON(http.StatusBadRequest, err.Error())
+		}
+
+		createdTest, err := testHandler.testUsecase.Create(req.Name)
+		if err != nil {
+			return context.JSON(http.StatusBadRequest, err.Error())
+		}
+
+		res := responseTest{
+			Id: createdTest.Id,
+			Name: createdTest.Name,
+		}
+
+		return context.JSON(http.StatusCreated, res)
 	}
 }

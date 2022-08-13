@@ -8,17 +8,17 @@ import (
 )
 
 type testRepository struct {
-	Conn *gorm.DB
+	Connect *gorm.DB
 }
 
 func NewTestRepotitory(conn *gorm.DB) repository.TestRepository {
-	return &testRepository{Conn: conn}
+	return &testRepository{Connect: conn}
 }
 
 func (testRepository *testRepository) FindAll() ([]*model.Test, error) {
 	tests := []*model.Test{}
 
-	if err := testRepository.Conn.Find(&tests).Error; err != nil{
+	if err := testRepository.Connect.Find(&tests).Error; err != nil{
 		return nil, err
 	}
 
@@ -28,9 +28,17 @@ func (testRepository *testRepository) FindAll() ([]*model.Test, error) {
 func (testRepository *testRepository) FindByID(id int) (*model.Test, error) {
 	test := &model.Test{Id: id}
 
-	if err := testRepository.Conn.First(&test).Error; err != nil{
+	if err := testRepository.Connect.First(&test).Error; err != nil{
 		return nil, err
 	}
 
 	return test , nil
+}
+
+func (testRepository *testRepository) Create(test *model.Test) (*model.Test, error) {
+	if err := testRepository.Connect.Create(&test).Error; err != nil {
+		return nil, err
+	}
+
+	return test, nil
 }

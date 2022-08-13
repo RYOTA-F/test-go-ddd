@@ -8,6 +8,7 @@ import (
 type TestUsecase interface {
 	FindAll() ([]*model.Test, error)
 	FindByID(id int) (*model.Test, error)
+	Create(name string) (*model.Test, error)
 }
 
 type testUsecase struct {
@@ -34,4 +35,19 @@ func (testUsecase *testUsecase) FindByID(id int) (*model.Test, error) {
 	}
 
 	return test, nil
+}
+
+func (testUsecase *testUsecase) Create(name string) (*model.Test, error) {
+	test, err := model.NewTest(name)
+
+	if err != nil {
+		return nil, err
+	}
+
+	createdTest, err := testUsecase.testRepository.Create(test)
+	if err != nil {
+		return nil, err
+	}
+
+	return createdTest, nil
 }
