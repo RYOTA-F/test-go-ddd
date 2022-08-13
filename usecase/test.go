@@ -10,6 +10,7 @@ type TestUsecase interface {
 	FindByID(id int) (*model.Test, error)
 	Create(name string) (*model.Test, error)
 	Update(id int, name string) (*model.Test, error)
+	Delete(id int) error
 }
 
 type testUsecase struct {
@@ -55,4 +56,14 @@ func (testUsecase *testUsecase) Update(id int, name string) (*model.Test, error)
 	if err != nil { return nil, err }
 
 	return updatedTest, nil
+}
+
+func (testUsecase *testUsecase) Delete(id int) error {
+	test, err := testUsecase.testRepository.FindByID(id)
+	if err != nil { return err }
+
+	err = testUsecase.testRepository.Delete(test)
+	if err != nil { return err }
+
+	return nil
 }

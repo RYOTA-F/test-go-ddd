@@ -7,4 +7,5 @@ type TestRepository interface {
   FindByID(id int) (*model.Test, error)
   Create(test *model.Test) (*model.Test, error)
   Update(test *model.Test) (*model.Test, error)
+  Delete(task *model.Test) error
 }

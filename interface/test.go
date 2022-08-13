@@ -13,6 +13,7 @@ type TestHandler interface {
 	Get() echo.HandlerFunc
 	Post() echo.HandlerFunc
 	Put() echo.HandlerFunc
+	Delete() echo.HandlerFunc
 }
 
 type testHandler struct {
@@ -118,5 +119,21 @@ func (testHandler *testHandler) Put() echo.HandlerFunc {
 		}
 
 		return context.JSON(http.StatusOK, res)
+	}
+}
+
+func (testHandler *testHandler) Delete() echo.HandlerFunc {
+	return func(context echo.Context) error {
+		id, err := strconv.Atoi(context.Param("id"))
+		if err != nil {
+			return context.JSON(http.StatusBadRequest, err.Error())
+		}
+
+		err = testHandler.testUsecase.Delete(id)
+		if err != nil {
+			return context.JSON(http.StatusBadRequest, err.Error())
+		}
+
+		return context.NoContent(http.StatusNoContent)
 	}
 }

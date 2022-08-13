@@ -50,3 +50,11 @@ func (testRepository *testRepository) Update(test *model.Test) (*model.Test, err
 
 	return test, nil
 }
+
+func (testRepository *testRepository) Delete(test *model.Test) error {
+	if err := testRepository.Connect.Delete(&test).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
