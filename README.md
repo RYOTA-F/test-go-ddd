@@ -22,8 +22,20 @@
 % docker-compose build
 ```
 
-### Run
+## Run
 
 ```sh
 % docker-compose up -d
+```
+
+## API
+
+```
+localhost:3000/tests
+```
+
+## Swagger
+
+```
+localhost:8002
 ```

@@ -19,8 +19,8 @@ paths:
                 type: array
                 items:
                   oneOf:
-                    - $ref: "#/components/schemas/ResponsePostTest"
-                    - $ref: "#/components/schemas/ResponsePostTest"
+                    - $ref: "#/components/schemas/Test"
+                    - $ref: "#/components/schemas/Test"
     post:
       description: "Post New Test"
       operationId: Post Test
@@ -39,7 +39,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponsePostTest"
+                $ref: "#/components/schemas/Test"
         default:
           description: Non Body Name
           content:
@@ -66,7 +66,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/ResponsePostTest"
+                  $ref: "#/components/schemas/Test"
         default:
           description: record not found error
           content:
@@ -92,7 +92,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/ResponsePostTest"
+                  $ref: "#/components/schemas/Test"
         default:
           description: unexpected error
           content:
@@ -128,7 +128,7 @@ paths:
 
 components:
   schemas:
-    ResponsePostTest:
+    Test:
       type: "object"
       properties:
         id:
