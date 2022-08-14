@@ -1,0 +1,142 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Test Golang DDD
+  description: Domain Driven Design Tutorial Golang API
+servers:
+  - url: "http://localhost:3000"
+paths:
+  /tests:
+    get:
+      description: "Return All Tests"
+      operationId: Index Tests
+      responses:
+        "200":
+          description: Tests response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  oneOf:
+                    - $ref: "#/components/schemas/ResponsePostTest"
+                    - $ref: "#/components/schemas/ResponsePostTest"
+    post:
+      description: "Post New Test"
+      operationId: Post Test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "test2"
+      responses:
+        "200":
+          description: Tests response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponsePostTest"
+        default:
+          description: Non Body Name
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "名前を入力してください"
+  /tests/{id}:
+    get:
+      description: "FindById Test"
+      operationId: Get Test
+      parameters:
+        - in: "path"
+          name: "id"
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the test to get
+      responses:
+        "200":
+          description: Tests response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ResponsePostTest"
+        default:
+          description: record not found error
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "record not found"
+    put:
+      description: "Put Test"
+      operationId: Put Test
+      parameters:
+        - in: "path"
+          name: "id"
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the test to put
+      responses:
+        "200":
+          description: Tests response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ResponsePostTest"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "record not found"
+    delete:
+      description: "Delete Test"
+      operationId: Delete Test
+      parameters:
+        - in: "path"
+          name: "id"
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the test to put
+      responses:
+        "200":
+          description: Tests response
+          content:
+            application/json:
+              schema:
+                type: string
+                example: ""
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "record not found"
+
+components:
+  schemas:
+    ResponsePostTest:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          example: 1
+        name:
+          type: "string"
+          example: "test1"
+externalDocs:
+  description: "Swagger"
+  url: "http://swagger.io"

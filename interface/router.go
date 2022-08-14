@@ -4,8 +4,7 @@ import (
 	"github.com/labstack/echo"
 )
 
-
-func InitRouting(e *echo.Echo, testHandler TestHandler) {
+func Router(e *echo.Echo, testHandler TestHandler) {
 	e.GET("/tests", testHandler.Index())
 	e.GET("/tests/:id", testHandler.Get())
 	e.POST("/tests", testHandler.Post())

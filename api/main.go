@@ -14,6 +14,6 @@ func main() {
 	testHandler := handler.NewTestHandler(testUsecase)
 
 	e := echo.New()
-	handler.InitRouting(e, testHandler)
+	handler.Router(e, testHandler)
 	e.Logger.Fatal(e.Start(":3000"))
 }

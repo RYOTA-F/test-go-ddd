@@ -23,47 +23,65 @@ func NewTestUseCase(testRepository repository.TestRepository) TestUsecase {
 
 func (testUsecase *testUsecase) FindAll() ([]*model.Test, error) {
 	tests, err := testUsecase.testRepository.FindAll()
-	if err != nil { return nil, err }
+	if err != nil {
+		return nil, err
+	}
 
 	return tests, nil
 }
 
 func (testUsecase *testUsecase) FindByID(id int) (*model.Test, error) {
 	test, err := testUsecase.testRepository.FindByID(id)
-	if err != nil { return nil, err }
+	if err != nil {
+		return nil, err
+	}
 
 	return test, nil
 }
 
 func (testUsecase *testUsecase) Create(name string) (*model.Test, error) {
 	test, err := model.NewTest(name)
-	if err != nil { return nil, err }
+	if err != nil {
+		return nil, err
+	}
 
 	createdTest, err := testUsecase.testRepository.Create(test)
-	if err != nil { return nil, err }
+	if err != nil {
+		return nil, err
+	}
 
 	return createdTest, nil
 }
 
 func (testUsecase *testUsecase) Update(id int, name string) (*model.Test, error) {
 	targetTest, err := testUsecase.testRepository.FindByID(id)
-	if err != nil { return nil, err }
+	if err != nil {
+		return nil, err
+	}
 
 	err = targetTest.Set(name)
-	if err != nil { return nil, err }
+	if err != nil {
+		return nil, err
+	}
 
 	updatedTest, err := testUsecase.testRepository.Update(targetTest)
-	if err != nil { return nil, err }
+	if err != nil {
+		return nil, err
+	}
 
 	return updatedTest, nil
 }
 
 func (testUsecase *testUsecase) Delete(id int) error {
 	test, err := testUsecase.testRepository.FindByID(id)
-	if err != nil { return err }
+	if err != nil {
+		return err
+	}
 
 	err = testUsecase.testRepository.Delete(test)
-	if err != nil { return err }
+	if err != nil {
+		return err
+	}
 
 	return nil
 }
